@@ -6,13 +6,13 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PW}
       # - PGDATA=var/lib/postgresql/18/docker
-      - POSTGRES_DB=RLT_videos #optional (specify default database instead of $POSTGRES_DB)
+      - POSTGRES_DB=${POSTGRES_DB} #optional (specify default database instead of $POSTGRES_DB)
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     restart: always
-    # volumes:
+    volumes:
     # - ./postgres/pg_data:/var/lib/postgresql/data/18/docker/postgresql.conf
-    # - postgres/pg_data/postgresql.conf:/var/lib/postgresql/data/18/docker/postgresql.conf
+    - postgres/pg_data/postgresql.conf:/var/lib/postgresql/data/18/docker/postgresql.conf
     # - pg_data:/var/lib/postgresql/data/18/docker/postgresql.conf
 
 
@@ -27,6 +27,28 @@ services:
     restart: always
     depends_on:
       - postgres
+
+  ollama:
+    image: docker.io/ollama/ollama:0.13.5
+    ports:
+      - 7869:11434
+    volumes:
+      # - .:/code
+      - ./ollama/ollama:/root/.ollama
+    container_name: ollama
+    command: ollama run ${OLLAMA_MODEL}
+
+
+
+    # pull_policy: always
+    # tty: true
+    # restart: always
+    # environment:
+    #   - OLLAMA_KEEP_ALIVE=24h
+    #   - OLLAMA_HOST=0.0.0.0
+    # networks:
+    #   - ollama-docker
+
 
 # volumes:
 #   pg_data:

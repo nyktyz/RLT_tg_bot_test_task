@@ -24,4 +24,5 @@ df_videos = df_videos.drop(columns=["snapshots"])
 
 df_video_snapshots = pd.DataFrame(
     videos_snapshots.agg(accumulate_all_snapshots)
-) 
+)
+print(df_videos.info())

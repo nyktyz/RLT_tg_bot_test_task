@@ -17,7 +17,8 @@ dependencies = [
     "langchain-community (>=0.4.1,<0.5.0)",
     "pandas (>=2.3.3,<3.0.0)",
     "psycopg2-binary (>=2.9.11,<3.0.0)",
-    "sqlacodegen (>=3.2.0,<4.0.0)"
+    "sqlacodegen (>=3.2.0,<4.0.0)",
+    "alembic (>=1.17.2,<2.0.0)"
 ]
 
 [tool.poetry]

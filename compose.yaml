@@ -10,9 +10,9 @@ services:
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     restart: always
-    volumes:
+    # volumes:
     # - ./postgres/pg_data:/var/lib/postgresql/data/18/docker/postgresql.conf
-    - postgres/pg_data/postgresql.conf:/var/lib/postgresql/data/18/docker/postgresql.conf
+    # - postgres/pg_data/postgresql.conf:/var/lib/postgresql/data/18/docker/postgresql.conf
     # - pg_data:/var/lib/postgresql/data/18/docker/postgresql.conf
 
 
@@ -36,7 +36,7 @@ services:
       # - .:/code
       - ./ollama/ollama:/root/.ollama
     container_name: ollama
-    command: ollama run ${OLLAMA_MODEL}
+    command: run ${OLLAMA_MODEL}
 
 
 

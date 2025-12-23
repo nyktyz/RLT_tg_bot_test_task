@@ -1,10 +1,12 @@
 import asyncio
 
 from rlt_tg_bot_test_task.tg.bot import bot, dp
+from rlt_tg_bot_test_task.database import populate_tables 
 
 
 async def main():
-    await dp.start_polling(bot)
+    populate_tables()
+    # await dp.start_polling(bot)
 
 
 

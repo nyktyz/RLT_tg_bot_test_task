@@ -2,7 +2,7 @@ from aiogram import Bot, Dispatcher, types
 
 from rlt_tg_bot_test_task.config import settings
 
-bot = Bot(token=settings.api_token)
+bot = Bot(token=settings.tg_bot_settings.api_token)
 dp = Dispatcher()
 
 

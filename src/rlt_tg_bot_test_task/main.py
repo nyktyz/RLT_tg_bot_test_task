@@ -1,6 +1,6 @@
 import asyncio
 
-from rlt_tg_bot_test_task.tg.bot import bot, dp
+from rlt_tg_bot_test_task.tg import bot, dp
 from rlt_tg_bot_test_task.database import populate_tables 
 
 

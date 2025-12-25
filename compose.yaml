@@ -15,7 +15,6 @@ services:
     # - postgres/pg_data/postgresql.conf:/var/lib/postgresql/data/18/docker/postgresql.conf
     # - pg_data:/var/lib/postgresql/data/18/docker/postgresql.conf
 
-
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4:9.11.0
@@ -28,15 +27,18 @@ services:
     depends_on:
       - postgres
 
-  ollama:
-    image: docker.io/ollama/ollama:0.13.5
-    ports:
-      - 7869:11434
-    volumes:
-      # - .:/code
-      - ./ollama/ollama:/root/.ollama
-    container_name: ollama
-    command: run ${OLLAMA_MODEL}
+  # ollama:
+  #   image: docker.io/ollama/ollama:0.13.5
+  #   # environment:
+  #   #   - OLLAMA_MODEL=${MODEL_NAME}
+  #   #   - OLLAMA_HOST=http://${MODEL_HOST}:${MODEL_PORT}
+  #   ports:
+  #     - 11434:11434
+  #     # - ${MODEL_PORT}:${MODEL_PORT}
+  #   volumes:
+  #     - ./ollama:/root/.ollama
+  #   container_name: ollama
+  #   command: serve && ollama run ${MODEL_NAME}
 
 
 
@@ -57,5 +59,3 @@ services:
 #       o: bind
 #       type: none
 #       device: ./postgres/pg_data
-
-

@@ -6,9 +6,19 @@ from sqlalchemy import URL
 
 
 class TGBotSettings(BaseSettings):
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     api_token: str  
+
+
+class LLMSettings(BaseSettings):
+
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    model_name: str
+    base_url: str
+    openrouter_api_token: str  
 
 
 class DatabaseSettings(BaseSettings):
@@ -46,7 +56,7 @@ class Settings(BaseSettings):
 
     database_settings: DatabaseSettings = DatabaseSettings()
     tg_bot_settings: TGBotSettings = TGBotSettings()
-
+    llm_settings: LLMSettings = LLMSettings()
 
 
 settings = Settings()

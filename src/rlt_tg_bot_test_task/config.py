@@ -16,8 +16,9 @@ class LLMSettings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    model_name: str
+    top_k: int
     base_url: str
+    model_name: str
     openrouter_api_token: str  
 
 

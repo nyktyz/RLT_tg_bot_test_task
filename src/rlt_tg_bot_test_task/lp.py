@@ -1,39 +1,9 @@
-import os
-from pathlib import Path
-
-
 from langchain.agents import create_agent
 from langchain_community.utilities import SQLDatabase
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain_openai import ChatOpenAI
 
-# from langchain_ollama import OllamaLLM
-
-
-
 from rlt_tg_bot_test_task.config import settings
-
-
-
-
-
-
-system_prompt = """ты - продвинутый аналитик данных свободно владеющий языком sql. 
-напиши запрос на языке sql к таблице users, который находит ползователя по его id. 
-В своем ответе предоставь только сам запрос, никаких коммеентариев или пояснений давать не нужно. 
-Также не пиши символы ``` в начале и в конце запроса
-"""
-
-
-
-
-# class LLMLocal(BaseLanguageModel):
-    
-#     def generate_prompt(
-#         self, prompts: list[PromptValue], stop: list[str] | None 
-#     ):
-
-
 
 
 class SQLAgent:
@@ -51,15 +21,60 @@ class SQLAgent:
             db=self.db,
             llm=self.llm
         )
+        self.top_k = settings.llm_settings.top_k
+        self._system_prompt = ""
+        self._user_prompt = ""
+        self.agent = create_agent(
+            self.model,
+            self.toolkit,
+            system_prompt=self.system_prompt
+        )
 
 
-    def _format_system_prompt(self):
-        ...
+    @property
+    def system_prompt(self):
+        return f"""ты - продвинутый аналитик данных свободно владеющий языком sql. 
+        напиши запрос на языке sql к таблице users, который находит ползователя по его id. 
+        В своем ответе предоставь только сам запрос, никаких коммеентариев или пояснений давать не нужно. 
+        Также не пиши символы ``` в начале и в конце запроса
+
+        Вы — агент, предназначенный для взаимодействия с базой данных SQL.
+        Получив на вход вопрос, создайте синтаксически корректный запрос на {self.db.dialect},
+        затем просмотрите результаты запроса и верните ответ. Если пользователь не указывает конкретное количество примеров, которые он хочет получить, всегда ограничивайте свой запрос максимум {self.top_k} результатами.
+
+        Вы можете упорядочить результаты по соответствующему столбцу, чтобы вернуть наиболее интересные
+        примеры в базе данных. Никогда не запрашивайте все столбцы из конкретной таблицы,
+        запрашивайте только соответствующие столбцы, исходя из вопроса.
+
+        Вы ОБЯЗАТЕЛЬНО должны дважды проверить свой запрос перед его выполнением. Если вы получили ошибку во время выполнения запроса, перепишите запрос и попробуйте снова.
+
+        НЕ используйте никаких операторов DML (INSERT, UPDATE, DELETE, DROP и т. д.) в базе данных.
+
+        Для начала ВСЕГДА просматривайте таблицы в базе данных, чтобы увидеть, что вы можете запросить. НЕ пропускайте этот шаг.
+
+        Затем следует запросить схему наиболее релевантных таблиц.
+        """
 
 
+    @system_prompt.setter
+    def system_prompt(self, value):
+        print("it is forbidden to change the system prompt")
 
-    async def _format_user_prompt(self):
-        ...
+
+    @property
+    def user_prompt(self):
+        return self._user_prompt
+
+
+    @user_prompt.setter
+    def user_prompt(self, value: str):
+        self._user_prompt = value
+
+
+    async def query_db(self):
+        await self.agent.ainvoke(self._user_prompt)
+
+
 
 
 

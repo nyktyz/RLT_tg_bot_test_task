@@ -25,7 +25,7 @@ class SQLAgent:
         self._system_prompt = ""
         self._user_prompt = ""
         self.agent = create_agent(
-            self.model,
+            self.llm,
             self.toolkit,
             system_prompt=self.system_prompt
         )

@@ -95,12 +95,3 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
-
-
-# p = Path(__file__).parents[1]
-# p = Path(__file__).parents[1] / "src" / "rlt_tg_bot_test_task" / "config.py"
-# p = Path(__file__).parents[1] / "src" / "rlt_tg_bot_test_task"
-# p = "config.py"
-# print(importlib.import_module("config.py", package=str(p)))
-# print(importlib.import_module(".src.rlt_tg_bot_test_task.config.py", package=str(p)))
-print()

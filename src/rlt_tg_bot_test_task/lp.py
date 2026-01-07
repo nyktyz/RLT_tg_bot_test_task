@@ -15,7 +15,7 @@ class SQLAgent:
         self.llm = ChatOpenAI(
             model_name=settings.llm_settings.model_name,
             api_key=settings.llm_settings.openrouter_api_token,
-            base_url=settings.llm_settings.base_url
+            # base_url=settings.llm_settings.base_url
         )
         self.toolkit = SQLDatabaseToolkit(
             db=self.db,
@@ -24,11 +24,16 @@ class SQLAgent:
         self.top_k = settings.llm_settings.top_k
         self._system_prompt = ""
         self._user_prompt = ""
-        self.agent = create_agent(
-            self.llm,
-            self.toolkit,
-            system_prompt=self.system_prompt
-        )
+        res = self.llm.invoke("как у тебя дела?")
+        from pprint import pprint
+        pprint(res)
+        # self.agent = create_agent(
+        #     self.llm,
+        #     self.toolkit,
+        #     system_prompt=self.system_prompt
+        # )
+
+        exit()
 
 
     @property
